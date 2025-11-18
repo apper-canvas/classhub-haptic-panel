@@ -1,0 +1,137 @@
+[
+  {
+    "Id": 1,
+    "studentId": 1,
+    "classId": 1,
+    "date": "2024-02-12T09:00:00Z",
+    "status": "present",
+    "note": "",
+    "markedBy": "T001"
+  },
+  {
+    "Id": 2,
+    "studentId": 2,
+    "classId": 1,
+    "date": "2024-02-12T09:00:00Z",
+    "status": "present",
+    "note": "",
+    "markedBy": "T001"
+  },
+  {
+    "Id": 3,
+    "studentId": 3,
+    "classId": 1,
+    "date": "2024-02-12T09:00:00Z",
+    "status": "late",
+    "note": "Arrived 10 minutes late",
+    "markedBy": "T001"
+  },
+  {
+    "Id": 4,
+    "studentId": 4,
+    "classId": 1,
+    "date": "2024-02-12T09:00:00Z",
+    "status": "absent",
+    "note": "Sick",
+    "markedBy": "T001"
+  },
+  {
+    "Id": 5,
+    "studentId": 5,
+    "classId": 1,
+    "date": "2024-02-12T09:00:00Z",
+    "status": "present",
+    "note": "",
+    "markedBy": "T001"
+  },
+  {
+    "Id": 6,
+    "studentId": 2,
+    "classId": 2,
+    "date": "2024-02-13T10:30:00Z",
+    "status": "present",
+    "note": "",
+    "markedBy": "T002"
+  },
+  {
+    "Id": 7,
+    "studentId": 3,
+    "classId": 2,
+    "date": "2024-02-13T10:30:00Z",
+    "status": "present",
+    "note": "",
+    "markedBy": "T002"
+  },
+  {
+    "Id": 8,
+    "studentId": 6,
+    "classId": 2,
+    "date": "2024-02-13T10:30:00Z",
+    "status": "absent",
+    "note": "Medical appointment",
+    "markedBy": "T002"
+  },
+  {
+    "Id": 9,
+    "studentId": 7,
+    "classId": 2,
+    "date": "2024-02-13T10:30:00Z",
+    "status": "present",
+    "note": "",
+    "markedBy": "T002"
+  },
+  {
+    "Id": 10,
+    "studentId": 8,
+    "classId": 2,
+    "date": "2024-02-13T10:30:00Z",
+    "status": "late",
+    "note": "Traffic delay",
+    "markedBy": "T002"
+  },
+  {
+    "Id": 11,
+    "studentId": 1,
+    "classId": 3,
+    "date": "2024-02-12T13:00:00Z",
+    "status": "present",
+    "note": "",
+    "markedBy": "T003"
+  },
+  {
+    "Id": 12,
+    "studentId": 4,
+    "classId": 3,
+    "date": "2024-02-12T13:00:00Z",
+    "status": "absent",
+    "note": "Sick",
+    "markedBy": "T003"
+  },
+  {
+    "Id": 13,
+    "studentId": 9,
+    "classId": 3,
+    "date": "2024-02-12T13:00:00Z",
+    "status": "present",
+    "note": "",
+    "markedBy": "T003"
+  },
+  {
+    "Id": 14,
+    "studentId": 10,
+    "classId": 3,
+    "date": "2024-02-12T13:00:00Z",
+    "status": "present",
+    "note": "",
+    "markedBy": "T003"
+  },
+  {
+    "Id": 15,
+    "studentId": 11,
+    "classId": 3,
+    "date": "2024-02-12T13:00:00Z",
+    "status": "present",
+    "note": "",
+    "markedBy": "T003"
+  }
+]

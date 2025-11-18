@@ -1,0 +1,101 @@
+[
+  {
+    "Id": 1,
+    "studentId": 1,
+    "assignmentId": 1,
+    "classId": 1,
+    "score": 85,
+    "feedback": "Good work on most problems. Review factoring methods for improvement.",
+    "gradedAt": "2024-02-16T10:30:00Z"
+  },
+  {
+    "Id": 2,
+    "studentId": 2,
+    "assignmentId": 1,
+    "classId": 1,
+    "score": 92,
+    "feedback": "Excellent understanding of quadratic equations. Well done!",
+    "gradedAt": "2024-02-16T10:45:00Z"
+  },
+  {
+    "Id": 3,
+    "studentId": 3,
+    "assignmentId": 1,
+    "classId": 1,
+    "score": 78,
+    "feedback": "Solid work. Pay attention to sign errors in calculations.",
+    "gradedAt": "2024-02-16T11:00:00Z"
+  },
+  {
+    "Id": 4,
+    "studentId": 2,
+    "assignmentId": 2,
+    "classId": 2,
+    "score": 88,
+    "feedback": "Strong analysis of themes. Consider expanding on character development.",
+    "gradedAt": "2024-02-21T14:20:00Z"
+  },
+  {
+    "Id": 5,
+    "studentId": 6,
+    "assignmentId": 2,
+    "classId": 2,
+    "score": 94,
+    "feedback": "Outstanding essay! Excellent use of textual evidence.",
+    "gradedAt": "2024-02-21T14:35:00Z"
+  },
+  {
+    "Id": 6,
+    "studentId": 1,
+    "assignmentId": 3,
+    "classId": 3,
+    "score": 76,
+    "feedback": "Good observations. Diagrams need more detailed labeling.",
+    "gradedAt": "2024-02-19T16:15:00Z"
+  },
+  {
+    "Id": 7,
+    "studentId": 4,
+    "assignmentId": 3,
+    "classId": 3,
+    "score": 82,
+    "feedback": "Nice lab technique. Include more detail in your analysis section.",
+    "gradedAt": "2024-02-19T16:30:00Z"
+  },
+  {
+    "Id": 8,
+    "studentId": 13,
+    "assignmentId": 5,
+    "classId": 5,
+    "score": 90,
+    "feedback": "Excellent lab work and documentation. Great attention to detail.",
+    "gradedAt": "2024-02-23T11:45:00Z"
+  },
+  {
+    "Id": 9,
+    "studentId": 2,
+    "assignmentId": 6,
+    "classId": 6,
+    "score": 95,
+    "feedback": "Outstanding fitness performance across all assessments.",
+    "gradedAt": "2024-02-17T16:00:00Z"
+  },
+  {
+    "Id": 10,
+    "studentId": 6,
+    "assignmentId": 6,
+    "classId": 6,
+    "score": 87,
+    "feedback": "Good overall performance. Focus on improving flexibility.",
+    "gradedAt": "2024-02-17T16:15:00Z"
+  },
+  {
+    "Id": 11,
+    "studentId": 20,
+    "assignmentId": 6,
+    "classId": 6,
+    "score": 79,
+    "feedback": "Solid effort. Work on cardiovascular endurance for next assessment.",
+    "gradedAt": "2024-02-17T16:30:00Z"
+  }
+]
