@@ -10,6 +10,7 @@ const StudentProfile = lazy(() => import("@/components/pages/StudentProfile"));
 const Assignments = lazy(() => import("@/components/pages/Assignments"));
 const Grades = lazy(() => import("@/components/pages/Grades"));
 const Attendance = lazy(() => import("@/components/pages/Attendance"));
+const Calendar = lazy(() => import("@/components/pages/Calendar"));
 const NotFound = lazy(() => import("@/components/pages/NotFound"));
 
 const loadingFallback = (
@@ -53,14 +54,18 @@ const mainRoutes = [
     path: "grades",
     element: <Suspense fallback={loadingFallback}><Grades /></Suspense>
   },
-  {
-    path: "attendance",
-    element: <Suspense fallback={loadingFallback}><Attendance /></Suspense>
-  },
-  {
-    path: "*",
-    element: <Suspense fallback={loadingFallback}><NotFound /></Suspense>
-  }
+{
+path: "attendance",
+element: <Suspense fallback={loadingFallback}><Attendance /></Suspense>
+},
+{
+path: "calendar",
+element: <Suspense fallback={loadingFallback}><Calendar /></Suspense>
+},
+{
+path: "*",
+element: <Suspense fallback={loadingFallback}><NotFound /></Suspense>
+}
 ];
 
 const routes = [
