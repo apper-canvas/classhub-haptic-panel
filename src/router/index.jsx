@@ -97,7 +97,7 @@ const mainRoutes = [
   createRoute({ path: "*", element: <NotFound /> }),
 ];
 
-export const router = createBrowserRouter([
+const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
@@ -111,3 +111,5 @@ export const router = createBrowserRouter([
     ],
   },
 ]);
+
+export default router;
