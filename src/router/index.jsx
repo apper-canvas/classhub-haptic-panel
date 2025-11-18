@@ -11,8 +11,8 @@ const Assignments = lazy(() => import("@/components/pages/Assignments"));
 const Grades = lazy(() => import("@/components/pages/Grades"));
 const Attendance = lazy(() => import("@/components/pages/Attendance"));
 const Calendar = lazy(() => import("@/components/pages/Calendar"));
+const Activity = lazy(() => import("@/components/pages/Activity"));
 const NotFound = lazy(() => import("@/components/pages/NotFound"));
-
 const loadingFallback = (
   <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
     <div className="text-center space-y-4">
@@ -63,8 +63,12 @@ path: "calendar",
 element: <Suspense fallback={loadingFallback}><Calendar /></Suspense>
 },
 {
-path: "*",
-element: <Suspense fallback={loadingFallback}><NotFound /></Suspense>
+  path: "activity",
+  element: <Suspense fallback={loadingFallback}><Activity /></Suspense>
+},
+{
+  path: "*",
+  element: <Suspense fallback={loadingFallback}><NotFound /></Suspense>
 }
 ];
 

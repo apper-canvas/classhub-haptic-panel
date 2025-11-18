@@ -1,0 +1,167 @@
+[
+  {
+    "Id": 1,
+    "type": "student",
+    "description": "Student Sarah Johnson enrolled in Advanced Mathematics",
+    "user": "Sarah Johnson",
+    "date": "2024-01-16T09:15:00.000Z",
+    "timestamp": "2024-01-16T09:15:00.000Z",
+    "details": {
+      "action": "enrollment",
+      "class": "Advanced Mathematics",
+      "studentId": 1
+    }
+  },
+  {
+    "Id": 2,
+    "type": "assignment",
+    "description": "Assignment 'Calculus Problem Set' submitted by Mike Chen",
+    "user": "Mike Chen",
+    "date": "2024-01-16T08:45:00.000Z",
+    "timestamp": "2024-01-16T08:45:00.000Z",
+    "details": {
+      "action": "submission",
+      "assignment": "Calculus Problem Set",
+      "studentId": 2
+    }
+  },
+  {
+    "Id": 3,
+    "type": "grade",
+    "description": "Grade updated for Emma Davis in Physics Lab Report",
+    "user": "Dr. Smith",
+    "date": "2024-01-16T08:30:00.000Z",
+    "timestamp": "2024-01-16T08:30:00.000Z",
+    "details": {
+      "action": "grade_update",
+      "assignment": "Physics Lab Report",
+      "studentId": 3,
+      "grade": "A-"
+    }
+  },
+  {
+    "Id": 4,
+    "type": "attendance",
+    "description": "Attendance marked for Chemistry 101 class",
+    "user": "Prof. Wilson",
+    "date": "2024-01-16T07:00:00.000Z",
+    "timestamp": "2024-01-16T07:00:00.000Z",
+    "details": {
+      "action": "attendance_marked",
+      "class": "Chemistry 101",
+      "present": 24,
+      "total": 25
+    }
+  },
+  {
+    "Id": 5,
+    "type": "assignment",
+    "description": "New assignment 'Essay on World History' created",
+    "user": "Prof. Martinez",
+    "date": "2024-01-15T16:20:00.000Z",
+    "timestamp": "2024-01-15T16:20:00.000Z",
+    "details": {
+      "action": "creation",
+      "assignment": "Essay on World History",
+      "dueDate": "2024-01-22",
+      "class": "World History"
+    }
+  },
+  {
+    "Id": 6,
+    "type": "student",
+    "description": "Student Alex Thompson updated profile information",
+    "user": "Alex Thompson",
+    "date": "2024-01-15T15:45:00.000Z",
+    "timestamp": "2024-01-15T15:45:00.000Z",
+    "details": {
+      "action": "profile_update",
+      "studentId": 4,
+      "changes": ["contact_info", "emergency_contact"]
+    }
+  },
+  {
+    "Id": 7,
+    "type": "grade",
+    "description": "Quiz grades published for Biology 201",
+    "user": "Dr. Anderson",
+    "date": "2024-01-15T14:30:00.000Z",
+    "timestamp": "2024-01-15T14:30:00.000Z",
+    "details": {
+      "action": "grade_publish",
+      "assignment": "Biology Quiz 3",
+      "class": "Biology 201",
+      "studentsAffected": 18
+    }
+  },
+  {
+    "Id": 8,
+    "type": "attendance",
+    "description": "Late arrival recorded for Emily Brown in English Literature",
+    "user": "Prof. Clark",
+    "date": "2024-01-15T13:15:00.000Z",
+    "timestamp": "2024-01-15T13:15:00.000Z",
+    "details": {
+      "action": "late_arrival",
+      "student": "Emily Brown",
+      "class": "English Literature",
+      "studentId": 5
+    }
+  },
+  {
+    "Id": 9,
+    "type": "assignment",
+    "description": "Assignment extension granted to David Kim for Programming Project",
+    "user": "Prof. Lee",
+    "date": "2024-01-15T11:00:00.000Z",
+    "timestamp": "2024-01-15T11:00:00.000Z",
+    "details": {
+      "action": "extension",
+      "assignment": "Programming Project",
+      "student": "David Kim",
+      "newDueDate": "2024-01-20"
+    }
+  },
+  {
+    "Id": 10,
+    "type": "student",
+    "description": "New student Jessica Wang registered for Spring semester",
+    "user": "Registrar Office",
+    "date": "2024-01-15T10:30:00.000Z",
+    "timestamp": "2024-01-15T10:30:00.000Z",
+    "details": {
+      "action": "registration",
+      "student": "Jessica Wang",
+      "semester": "Spring 2024",
+      "classes": 5
+    }
+  },
+  {
+    "Id": 11,
+    "type": "grade",
+    "description": "Midterm exam graded for Computer Science 301",
+    "user": "Prof. Johnson",
+    "date": "2024-01-14T16:45:00.000Z",
+    "timestamp": "2024-01-14T16:45:00.000Z",
+    "details": {
+      "action": "exam_graded",
+      "exam": "Midterm Exam",
+      "class": "Computer Science 301",
+      "averageScore": 85.4
+    }
+  },
+  {
+    "Id": 12,
+    "type": "attendance",
+    "description": "Perfect attendance achieved by Lisa Park for January",
+    "user": "System",
+    "date": "2024-01-14T15:00:00.000Z",
+    "timestamp": "2024-01-14T15:00:00.000Z",
+    "details": {
+      "action": "perfect_attendance",
+      "student": "Lisa Park",
+      "period": "January 2024",
+      "studentId": 6
+    }
+  }
+]
