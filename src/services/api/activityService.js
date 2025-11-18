@@ -1,6 +1,40 @@
-import activityData from '../mockData/activity.json';
+// Activity service using mock data since no activity table exists in database
+// This provides activity tracking functionality for the application
 
-let activities = [...activityData];
+let activities = [
+  {
+    Id: 1,
+    type: 'student',
+    description: 'New student Sarah Johnson enrolled in 10th Grade',
+    user: 'Admin',
+    date: new Date().toISOString(),
+    details: { studentId: 1, grade: '10th Grade' }
+  },
+  {
+    Id: 2,
+    type: 'assignment',
+    description: 'Assignment "Math Quiz Chapter 5" created for Algebra class',
+    user: 'Teacher',
+    date: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+    details: { assignmentId: 1, className: 'Algebra' }
+  },
+  {
+    Id: 3,
+    type: 'grade',
+    description: 'Grade submitted for student John Smith - Score: 95/100',
+    user: 'Teacher',
+    date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    details: { studentId: 2, score: 95, total: 100 }
+  },
+  {
+    Id: 4,
+    type: 'attendance',
+    description: 'Attendance marked for Chemistry class - 25 present, 3 absent',
+    user: 'Teacher',
+    date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+    details: { className: 'Chemistry', present: 25, absent: 3 }
+  }
+];
 
 // Helper function to generate unique ID
 const generateId = () => {

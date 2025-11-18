@@ -1,8 +1,61 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { cn } from "@/utils/cn";
 import ApperIcon from "@/components/ApperIcon";
 import SearchBar from "@/components/molecules/SearchBar";
+import Button from "@/components/atoms/Button";
+import { useAuth } from "@/layouts/Root";
+function UserMenu() {
+  const [isOpen, setIsOpen] = useState(false);
+  const { user } = useSelector(state => state.user);
+  const { logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+    setIsOpen(false);
+  };
+
+  if (!user) return null;
+
+  const userInitials = user.firstName && user.lastName 
+    ? `${user.firstName[0]}${user.lastName[0]}`.toUpperCase()
+    : user.emailAddress?.[0]?.toUpperCase() || "U";
+
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center text-sm font-medium hover:bg-blue-700 transition-colors"
+      >
+        {userInitials}
+      </button>
+      
+      {isOpen && (
+        <>
+          <div 
+            className="fixed inset-0 z-10" 
+            onClick={() => setIsOpen(false)}
+          />
+          <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20 border border-gray-200">
+            <div className="px-4 py-2 text-sm text-gray-700 border-b border-gray-100">
+              <div className="font-medium">{user.firstName} {user.lastName}</div>
+              <div className="text-gray-500">{user.emailAddress}</div>
+            </div>
+            <Button
+              variant="ghost"
+              onClick={handleLogout}
+              className="w-full justify-start px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-none"
+            >
+              <ApperIcon name="LogOut" size={16} className="mr-2" />
+              Logout
+            </Button>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
 
 export default function Header({ onMobileMenuToggle }) {
   const location = useLocation();
@@ -86,10 +139,8 @@ export default function Header({ onMobileMenuToggle }) {
             </div>
 
             {/* User menu */}
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-                <ApperIcon name="User" size={16} className="text-gray-600" />
-              </div>
+<div className="flex items-center gap-2">
+              <UserMenu />
             </div>
           </div>
         </div>

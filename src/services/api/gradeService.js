@@ -1,93 +1,348 @@
-import gradesData from "@/services/mockData/grades.json";
-
-let grades = [...gradesData];
+import { getApperClient } from "@/services/apperClient";
+import { toast } from "react-toastify";
 
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 export const gradeService = {
   async getAll() {
-    await delay(300);
-    return [...grades];
+    try {
+      await delay(300);
+      const apperClient = getApperClient();
+      if (!apperClient) throw new Error("ApperClient not available");
+
+      const response = await apperClient.fetchRecords('grades_c', {
+        fields: [
+          {"field": {"Name": "Id"}},
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "score_c"}},
+          {"field": {"Name": "feedback_c"}},
+          {"field": {"Name": "gradedAt_c"}},
+          {"field": {"Name": "studentId_c"}},
+          {"field": {"Name": "assignmentId_c"}},
+          {"field": {"Name": "classId_c"}},
+          {"field": {"Name": "CreatedOn"}}
+        ]
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return [];
+      }
+
+      return response.data.map(item => ({
+        Id: item.Id,
+        score: item.score_c || 0,
+        feedback: item.feedback_c || "",
+        gradedAt: item.gradedAt_c || item.CreatedOn || new Date().toISOString(),
+        studentId: item.studentId_c?.Id || item.studentId_c || 0,
+        assignmentId: item.assignmentId_c?.Id || item.assignmentId_c || 0,
+        classId: item.classId_c?.Id || item.classId_c || 0,
+        createdAt: item.CreatedOn || new Date().toISOString()
+      }));
+    } catch (error) {
+      console.error("Error fetching grades:", error?.response?.data?.message || error);
+      return [];
+    }
   },
 
   async getById(id) {
-    await delay(200);
-    const grade = grades.find(g => g.Id === parseInt(id));
-    return grade ? { ...grade } : null;
+    try {
+      await delay(200);
+      const apperClient = getApperClient();
+      if (!apperClient) throw new Error("ApperClient not available");
+
+      const response = await apperClient.getRecordById('grades_c', parseInt(id), {
+        fields: [
+          {"field": {"Name": "Id"}},
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "score_c"}},
+          {"field": {"Name": "feedback_c"}},
+          {"field": {"Name": "gradedAt_c"}},
+          {"field": {"Name": "studentId_c"}},
+          {"field": {"Name": "assignmentId_c"}},
+          {"field": {"Name": "classId_c"}},
+          {"field": {"Name": "CreatedOn"}}
+        ]
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        return null;
+      }
+
+      const item = response.data;
+      return {
+        Id: item.Id,
+        score: item.score_c || 0,
+        feedback: item.feedback_c || "",
+        gradedAt: item.gradedAt_c || item.CreatedOn || new Date().toISOString(),
+        studentId: item.studentId_c?.Id || item.studentId_c || 0,
+        assignmentId: item.assignmentId_c?.Id || item.assignmentId_c || 0,
+        classId: item.classId_c?.Id || item.classId_c || 0,
+        createdAt: item.CreatedOn || new Date().toISOString()
+      };
+    } catch (error) {
+      console.error(`Error fetching grade ${id}:`, error?.response?.data?.message || error);
+      return null;
+    }
   },
 
   async create(gradeData) {
-    await delay(400);
-    const maxId = Math.max(...grades.map(g => g.Id), 0);
-    const newGrade = {
-      ...gradeData,
-      Id: maxId + 1,
-      gradedAt: new Date().toISOString()
-    };
-    grades.push(newGrade);
-    return { ...newGrade };
+    try {
+      await delay(400);
+      const apperClient = getApperClient();
+      if (!apperClient) throw new Error("ApperClient not available");
+
+      const response = await apperClient.createRecord('grades_c', {
+        records: [{
+          Name: `Grade ${gradeData.studentId} ${gradeData.assignmentId}`,
+          score_c: gradeData.score,
+          feedback_c: gradeData.feedback || "",
+          gradedAt_c: new Date().toISOString(),
+          studentId_c: gradeData.studentId,
+          assignmentId_c: gradeData.assignmentId,
+          classId_c: gradeData.classId
+        }]
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return null;
+      }
+
+      if (response.results && response.results.length > 0) {
+        const result = response.results[0];
+        if (result.success) {
+          const item = result.data;
+          return {
+            Id: item.Id,
+            score: item.score_c || 0,
+            feedback: item.feedback_c || "",
+            gradedAt: item.gradedAt_c || item.CreatedOn || new Date().toISOString(),
+            studentId: item.studentId_c?.Id || item.studentId_c || 0,
+            assignmentId: item.assignmentId_c?.Id || item.assignmentId_c || 0,
+            classId: item.classId_c?.Id || item.classId_c || 0,
+            createdAt: item.CreatedOn || new Date().toISOString()
+          };
+        }
+      }
+      return null;
+    } catch (error) {
+      console.error("Error creating grade:", error?.response?.data?.message || error);
+      return null;
+    }
   },
 
   async update(id, data) {
-    await delay(350);
-    const index = grades.findIndex(g => g.Id === parseInt(id));
-    if (index === -1) return null;
-    
-    grades[index] = { ...grades[index], ...data };
-    return { ...grades[index] };
+    try {
+      await delay(350);
+      const apperClient = getApperClient();
+      if (!apperClient) throw new Error("ApperClient not available");
+
+      const updateData = {
+        Id: parseInt(id)
+      };
+
+      if (data.score !== undefined) updateData.score_c = data.score;
+      if (data.feedback !== undefined) updateData.feedback_c = data.feedback;
+      if (data.gradedAt !== undefined) updateData.gradedAt_c = data.gradedAt;
+      if (data.studentId !== undefined) updateData.studentId_c = data.studentId;
+      if (data.assignmentId !== undefined) updateData.assignmentId_c = data.assignmentId;
+      if (data.classId !== undefined) updateData.classId_c = data.classId;
+
+      const response = await apperClient.updateRecord('grades_c', {
+        records: [updateData]
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return null;
+      }
+
+      if (response.results && response.results.length > 0) {
+        const result = response.results[0];
+        if (result.success) {
+          const item = result.data;
+          return {
+            Id: item.Id,
+            score: item.score_c || 0,
+            feedback: item.feedback_c || "",
+            gradedAt: item.gradedAt_c || item.CreatedOn || new Date().toISOString(),
+            studentId: item.studentId_c?.Id || item.studentId_c || 0,
+            assignmentId: item.assignmentId_c?.Id || item.assignmentId_c || 0,
+            classId: item.classId_c?.Id || item.classId_c || 0,
+            createdAt: item.CreatedOn || new Date().toISOString()
+          };
+        }
+      }
+      return null;
+    } catch (error) {
+      console.error("Error updating grade:", error?.response?.data?.message || error);
+      return null;
+    }
   },
 
   async delete(id) {
-    await delay(250);
-    const index = grades.findIndex(g => g.Id === parseInt(id));
-    if (index === -1) return false;
-    
-    grades.splice(index, 1);
-    return true;
+    try {
+      await delay(250);
+      const apperClient = getApperClient();
+      if (!apperClient) throw new Error("ApperClient not available");
+
+      const response = await apperClient.deleteRecord('grades_c', {
+        RecordIds: [parseInt(id)]
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      console.error("Error deleting grade:", error?.response?.data?.message || error);
+      return false;
+    }
   },
 
   async getByStudentId(studentId) {
-    await delay(200);
-    return grades.filter(g => g.studentId === parseInt(studentId));
+    try {
+      await delay(200);
+      const apperClient = getApperClient();
+      if (!apperClient) throw new Error("ApperClient not available");
+
+      const response = await apperClient.fetchRecords('grades_c', {
+        fields: [
+          {"field": {"Name": "Id"}},
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "score_c"}},
+          {"field": {"Name": "feedback_c"}},
+          {"field": {"Name": "gradedAt_c"}},
+          {"field": {"Name": "studentId_c"}},
+          {"field": {"Name": "assignmentId_c"}},
+          {"field": {"Name": "classId_c"}},
+          {"field": {"Name": "CreatedOn"}}
+        ],
+        where: [{
+          "FieldName": "studentId_c",
+          "Operator": "EqualTo",
+          "Values": [parseInt(studentId)]
+        }]
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        return [];
+      }
+
+      return response.data.map(item => ({
+        Id: item.Id,
+        score: item.score_c || 0,
+        feedback: item.feedback_c || "",
+        gradedAt: item.gradedAt_c || item.CreatedOn || new Date().toISOString(),
+        studentId: item.studentId_c?.Id || item.studentId_c || 0,
+        assignmentId: item.assignmentId_c?.Id || item.assignmentId_c || 0,
+        classId: item.classId_c?.Id || item.classId_c || 0,
+        createdAt: item.CreatedOn || new Date().toISOString()
+      }));
+    } catch (error) {
+      console.error("Error fetching grades by student:", error);
+      return [];
+    }
   },
 
   async getByClassId(classId) {
-    await delay(200);
-    return grades.filter(g => g.classId === parseInt(classId));
+    try {
+      await delay(200);
+      const apperClient = getApperClient();
+      if (!apperClient) throw new Error("ApperClient not available");
+
+      const response = await apperClient.fetchRecords('grades_c', {
+        fields: [
+          {"field": {"Name": "Id"}},
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "score_c"}},
+          {"field": {"Name": "feedback_c"}},
+          {"field": {"Name": "gradedAt_c"}},
+          {"field": {"Name": "studentId_c"}},
+          {"field": {"Name": "assignmentId_c"}},
+          {"field": {"Name": "classId_c"}},
+          {"field": {"Name": "CreatedOn"}}
+        ],
+        where: [{
+          "FieldName": "classId_c",
+          "Operator": "EqualTo",
+          "Values": [parseInt(classId)]
+        }]
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        return [];
+      }
+
+      return response.data.map(item => ({
+        Id: item.Id,
+        score: item.score_c || 0,
+        feedback: item.feedback_c || "",
+        gradedAt: item.gradedAt_c || item.CreatedOn || new Date().toISOString(),
+        studentId: item.studentId_c?.Id || item.studentId_c || 0,
+        assignmentId: item.assignmentId_c?.Id || item.assignmentId_c || 0,
+        classId: item.classId_c?.Id || item.classId_c || 0,
+        createdAt: item.CreatedOn || new Date().toISOString()
+      }));
+    } catch (error) {
+      console.error("Error fetching grades by class:", error);
+      return [];
+    }
   },
 
   async getByAssignmentId(assignmentId) {
-    await delay(200);
-    return grades.filter(g => g.assignmentId === parseInt(assignmentId));
-  },
+    try {
+      await delay(200);
+      const apperClient = getApperClient();
+      if (!apperClient) throw new Error("ApperClient not available");
 
-  async getStudentClassGrades(studentId, classId) {
-    await delay(200);
-    return grades.filter(g => 
-      g.studentId === parseInt(studentId) && g.classId === parseInt(classId)
-    );
-  },
+      const response = await apperClient.fetchRecords('grades_c', {
+        fields: [
+          {"field": {"Name": "Id"}},
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "score_c"}},
+          {"field": {"Name": "feedback_c"}},
+          {"field": {"Name": "gradedAt_c"}},
+          {"field": {"Name": "studentId_c"}},
+          {"field": {"Name": "assignmentId_c"}},
+          {"field": {"Name": "classId_c"}},
+          {"field": {"Name": "CreatedOn"}}
+        ],
+        where: [{
+          "FieldName": "assignmentId_c",
+          "Operator": "EqualTo",
+          "Values": [parseInt(assignmentId)]
+        }]
+      });
 
-  async calculateClassAverage(classId) {
-    await delay(150);
-    const classGrades = grades.filter(g => g.classId === parseInt(classId));
-    if (classGrades.length === 0) return 0;
-    
-    const total = classGrades.reduce((sum, grade) => sum + grade.score, 0);
-    return Math.round((total / classGrades.length) * 100) / 100;
-  },
+      if (!response.success) {
+        console.error(response.message);
+        return [];
+      }
 
-  async calculateStudentAverage(studentId, classId = null) {
-    await delay(150);
-    let studentGrades = grades.filter(g => g.studentId === parseInt(studentId));
-    
-    if (classId) {
-      studentGrades = studentGrades.filter(g => g.classId === parseInt(classId));
+      return response.data.map(item => ({
+        Id: item.Id,
+        score: item.score_c || 0,
+        feedback: item.feedback_c || "",
+        gradedAt: item.gradedAt_c || item.CreatedOn || new Date().toISOString(),
+        studentId: item.studentId_c?.Id || item.studentId_c || 0,
+        assignmentId: item.assignmentId_c?.Id || item.assignmentId_c || 0,
+        classId: item.classId_c?.Id || item.classId_c || 0,
+        createdAt: item.CreatedOn || new Date().toISOString()
+      }));
+    } catch (error) {
+      console.error("Error fetching grades by assignment:", error);
+      return [];
     }
-    
-    if (studentGrades.length === 0) return 0;
-    
-    const total = studentGrades.reduce((sum, grade) => sum + grade.score, 0);
-    return Math.round((total / studentGrades.length) * 100) / 100;
   }
 };

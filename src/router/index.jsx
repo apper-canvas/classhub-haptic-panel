@@ -1,7 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import React, { Suspense, lazy } from "react";
+import { getRouteConfig } from "./route.utils";
+import Root from "@/layouts/Root";
 import Layout from "@/components/organisms/Layout";
 
+// Lazy load pages
 const Dashboard = lazy(() => import("@/components/pages/Dashboard"));
 const Classes = lazy(() => import("@/components/pages/Classes"));
 const ClassDetail = lazy(() => import("@/components/pages/ClassDetail"));
@@ -13,6 +16,14 @@ const Attendance = lazy(() => import("@/components/pages/Attendance"));
 const Calendar = lazy(() => import("@/components/pages/Calendar"));
 const Activity = lazy(() => import("@/components/pages/Activity"));
 const NotFound = lazy(() => import("@/components/pages/NotFound"));
+
+// Auth pages
+const Login = lazy(() => import("@/components/pages/Login"));
+const Signup = lazy(() => import("@/components/pages/Signup"));
+const Callback = lazy(() => import("@/components/pages/Callback"));
+const ErrorPage = lazy(() => import("@/components/pages/ErrorPage"));
+const ResetPassword = lazy(() => import("@/components/pages/ResetPassword"));
+const PromptPassword = lazy(() => import("@/components/pages/PromptPassword"));
 const loadingFallback = (
   <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
     <div className="text-center space-y-4">
@@ -24,60 +35,79 @@ const loadingFallback = (
   </div>
 );
 
-const mainRoutes = [
-  {
-    path: "",
-    index: true,
-    element: <Suspense fallback={loadingFallback}><Dashboard /></Suspense>
-  },
-  {
-    path: "classes",
-    element: <Suspense fallback={loadingFallback}><Classes /></Suspense>
-  },
-  {
-    path: "classes/:id",
-    element: <Suspense fallback={loadingFallback}><ClassDetail /></Suspense>
-  },
-  {
-    path: "students",
-    element: <Suspense fallback={loadingFallback}><Students /></Suspense>
-  },
-  {
-    path: "students/:id",
-    element: <Suspense fallback={loadingFallback}><StudentProfile /></Suspense>
-  },
-  {
-    path: "assignments",
-    element: <Suspense fallback={loadingFallback}><Assignments /></Suspense>
-  },
-  {
-    path: "grades",
-    element: <Suspense fallback={loadingFallback}><Grades /></Suspense>
-  },
-{
-path: "attendance",
-element: <Suspense fallback={loadingFallback}><Attendance /></Suspense>
-},
-{
-path: "calendar",
-element: <Suspense fallback={loadingFallback}><Calendar /></Suspense>
-},
-{
-  path: "activity",
-  element: <Suspense fallback={loadingFallback}><Activity /></Suspense>
-},
-{
-  path: "*",
-  element: <Suspense fallback={loadingFallback}><NotFound /></Suspense>
-}
+
+// Create route helper
+const createRoute = ({
+  path,
+  index,
+  element,
+  access,
+  children,
+  ...meta
+}) => {
+  // Get config for this route
+  let configPath;
+  if (index) {
+    configPath = "/";
+  } else {
+    configPath = path.startsWith('/') ? path : `/${path}`;
+  }
+
+  const config = getRouteConfig(configPath);
+  const finalAccess = access || config?.allow;
+
+  const route = {
+    ...(index ? { index: true } : { path }),
+    element: element ? <Suspense fallback={loadingFallback}>{element}</Suspense> : element,
+    handle: {
+      access: finalAccess,
+      ...meta,
+    },
+  };
+
+  if (children && children.length > 0) {
+    route.children = children;
+  }
+
+  return route;
+};
+
+// Auth routes
+const authRoutes = [
+  createRoute({ path: "login", element: <Login /> }),
+  createRoute({ path: "signup", element: <Signup /> }),
+  createRoute({ path: "callback", element: <Callback /> }),
+  createRoute({ path: "error", element: <ErrorPage /> }),
+  createRoute({ path: "reset-password/:appId/:fields", element: <ResetPassword /> }),
+  createRoute({ path: "prompt-password/:appId/:emailAddress/:provider", element: <PromptPassword /> }),
 ];
 
-const routes = [
+// Main app routes
+const mainRoutes = [
+  createRoute({ index: true, element: <Dashboard /> }),
+  createRoute({ path: "classes", element: <Classes /> }),
+  createRoute({ path: "classes/:id", element: <ClassDetail /> }),
+  createRoute({ path: "students", element: <Students /> }),
+  createRoute({ path: "students/:id", element: <StudentProfile /> }),
+  createRoute({ path: "assignments", element: <Assignments /> }),
+  createRoute({ path: "grades", element: <Grades /> }),
+  createRoute({ path: "attendance", element: <Attendance /> }),
+  createRoute({ path: "calendar", element: <Calendar /> }),
+  createRoute({ path: "activity", element: <Activity /> }),
+  createRoute({ path: "*", element: <NotFound /> }),
+];
+
+export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
-    children: [...mainRoutes]
-  }
-];
-
-export const router = createBrowserRouter(routes);
+    element: <Root />,
+    children: [
+      {
+        path: "/",
+        element: <Layout />,
+        children: [...mainRoutes]
+      },
+      ...authRoutes,
+    ],
+  },
+]);
